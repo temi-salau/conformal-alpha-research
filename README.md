@@ -13,7 +13,7 @@ This project explores how conformal prediction methods can be applied to quantit
 - Vectorised backtesting framework with transaction cost modelling
 
 ## Tech Stack
-- Python 3.x
+- Python 3.11.14
 - NumPy, Pandas (data processing)
 - Scikit-learn (ML models)
 - Parquet (efficient data caching)
