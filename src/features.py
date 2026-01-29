@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from statsmodels.tsa.stattools import adfuller
 
 class FeatureEngineer:
     def __init__(self, data):
@@ -35,3 +36,16 @@ class FeatureEngineer:
         rs = avg_gain / avg_loss
         self.df['RSI'] = 100 - (100 / (1 + rs))
         return self
+    
+    def clean_data(self):
+        # Remove initial NaNs
+        self.df = self.df.dropna()
+        print(f"Data cleaned. Remaining rows: {len(self.df)}")
+
+    def run_stationary_test(self, column):
+        # Drop NaNs just for the test
+        result = adfuller(self.df[column].dropna())
+        p_value = result[1]
+
+        status = "Stationary" if p_value < 0.05 else "Non-Stationary"
+        print(f"{column} P-Value: {p_value:.4f} | {status}")
