@@ -21,8 +21,8 @@ This project explores how conformal prediction methods can be applied to quantit
 ## Project Roadmap
 
 - [x] **Phase 1:** Project Infrastructure & Data Pipeline ✓
-- [x] **Phase 2:** Feature Engineering & Alpha Signals
-- [ ] **Phase 3:** Conformal Prediction & Model Training
+- [x] **Phase 2:** Feature Engineering & Alpha Signals ✓
+- [x] **Phase 3:** Conformal Prediction & Model Training ✓
 - [ ] **Phase 4:** Vectorised Backtesting & Transaction Costs
 - [ ] **Phase 5:** Performance Reporting & Documentation
 
