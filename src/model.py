@@ -34,3 +34,15 @@ class ConformalRidgePredictor:
         X_test, y_test = X.iloc[cal_end:], y.iloc[cal_end:]
 
         return X_train, y_train, X_cal, y_cal, X_test, y_test
+    
+    def fit(self, X_train, y_train):
+        """
+        Fits the Ridge Regression model on the training features and targets
+        """
+        return self.model.fit(X_train, y_train)
+
+    def predict(self, X):
+        """
+        Generates point predictions for next-day log returns
+        """
+        return self.model,self.predict(X)
