@@ -45,4 +45,31 @@ class ConformalRidgePredictor:
         """
         Generates point predictions for next-day log returns
         """
-        return self.model,self.predict(X)
+        return self.model.predict(X)
+    
+    def calibrate(self, X_cal, y_cal):
+        """
+        Calculates and stores the non-conformity scores on the calibration set to use for interval estimation
+        """
+        y_pred_cal = self.predict(X_cal)
+        self.cal_scores = np.abs(y_cal - y_pred_cal)
+
+    def predict_intervals(self, X, confidence_level=0.95):
+        """
+        Generates point prediction alongside lower and upper prediction intervals based on the calibrated error distribution
+        """
+
+        if not hasattr(self, 'cal_scores'):
+            raise ValueError("Model must be calibrated using the 'calibrate' method before generating intervals.")
+        
+        y_pred = self.predict(X)
+
+        alpha = 1 - confidence_level
+        n = len(self.cal_scores)
+        quantile_val = min(1.0, (n + 1) * (1 - alpha) / n)
+        q_threshold = np.quantile(self.cal_scores, quantile_val, method='higher')
+
+        lower_bound = y_pred - q_threshold
+        upper_bound = y_pred + q_threshold
+
+        return y_pred, lower_bound, upper_bound
