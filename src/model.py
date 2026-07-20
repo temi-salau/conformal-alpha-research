@@ -52,7 +52,7 @@ class ConformalRidgePredictor:
         Calculates and stores the non-conformity scores on the calibration set to use for interval estimation
         """
         y_pred_cal = self.predict(X_cal)
-        self.cal_scores = np.abs(y_cal - y_pred_cal)
+        self.cal_scores = np.abs(y_cal - y_pred_cal) / X_cal['Volatility']
 
     def predict_intervals(self, X, confidence_level=0.95):
         """
@@ -69,7 +69,7 @@ class ConformalRidgePredictor:
         quantile_val = min(1.0, (n + 1) * (1 - alpha) / n)
         q_threshold = np.quantile(self.cal_scores, quantile_val, method='higher')
 
-        lower_bound = y_pred - q_threshold
-        upper_bound = y_pred + q_threshold
+        lower_bound = y_pred - (q_threshold * X['Volatility'])
+        upper_bound = y_pred + (q_threshold * X['Volatility'])
 
         return y_pred, lower_bound, upper_bound
